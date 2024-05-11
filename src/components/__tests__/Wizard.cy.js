@@ -7,7 +7,7 @@ describe('Wizard Component | src/components/Wizard.vue', () => {
   beforeEach(() => {
     cy.mount(Wizard)
   })
-  
+
   context('Username', ()=>{
     context('Validation', ()=>{
       it('Username validation works on empty username', () => {
@@ -19,23 +19,23 @@ describe('Wizard Component | src/components/Wizard.vue', () => {
         cy.get('button#btn-next').click()
         cy.contains('Invalid Username.')
       })
-    
+
       it('Username validation works on invalid short username', () => {
-        
+
         cy.get('input#username').type('usr')
         cy.get('button#btn-next').click()
         cy.contains('Invalid Username.')
       })
-    
+
       it('Username validation works on invalid long username', () => {
-        
+
         cy.get('input#username').type('asdjasdhuasdiuahsdiuhasdiuhasdiuhasdiuhasdiuahs.i_a')
         cy.get('button#btn-next').click()
         cy.contains('Invalid Username.')
       })
-    
+
       it('Username validation works on valid username', () => {
-        
+
         cy.get('input#username').type(validUsername)
         cy.get('button#btn-next').click()
         cy.contains('Email:')
@@ -45,9 +45,9 @@ describe('Wizard Component | src/components/Wizard.vue', () => {
       it('Prev button is disabled in the first step', () => {
         cy.get('button#btn-prev').should('have.attr','disabled')
       })
-    
+
       it('Prev button works after submiting valid username', () => {
-        
+
         cy.get('input#username').type(validUsername)
         cy.get('button#btn-next').click()
         cy.contains('Email:')
@@ -65,14 +65,13 @@ describe('Wizard Component | src/components/Wizard.vue', () => {
         cy.get('button#btn-next').click()
         cy.contains(invalidEmailAddress)
       })
-      
+
       it('email validation works on invalid email address', () => {
         cy.wizardValidUsername(validUsername)
         cy.get('input#email').type('user @local.test')
         cy.get('button#btn-next').click()
         cy.contains(invalidEmailAddress)
       })
-    
       it('Username validation works on valid username', () => {
         cy.wizardValidUsername(validUsername)
         cy.get('input#email').type(validemail)
@@ -82,7 +81,7 @@ describe('Wizard Component | src/components/Wizard.vue', () => {
         cy.contains(`Email: ${validemail}`)
       })
     })
-    context('Buttons', ()=>{    
+    context('Buttons', ()=>{
       it('Prev button works after submiting valid email', () => {
         cy.wizardValidUsername(validUsername)
         cy.get('input#email').type(validemail)
