@@ -1,11 +1,12 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import {RouterLink, RouterView, useRoute} from 'vue-router'
 import CustomHeader from "@/components/Main/CustomHeader.vue";
+const route = useRoute()
 </script>
 
 <template>
   <div id="app" class="xl:max-w-[600px] mx-auto">
- <CustomHeader></CustomHeader>
+ <CustomHeader v-if="route.path!=='/description'"></CustomHeader>
   <RouterView />
   </div>
 </template>

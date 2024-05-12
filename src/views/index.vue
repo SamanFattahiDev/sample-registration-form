@@ -1,15 +1,17 @@
 <template>
   <div class="">
     <Wizard></Wizard>
+
   </div>
 </template>
 
 <script>
 import Wizard from "@/components/Wizard.vue";
+import Description from "@/components/Description.vue";
 
 export default {
   name: "index",
-  components: {Wizard}
+  components: {Description, Wizard}
 }
 </script>
 
