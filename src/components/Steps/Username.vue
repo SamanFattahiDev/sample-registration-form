@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col gap-2">
-    <label for="username"> Username:</label>
+    <span>Username:</span>
     <VInput
         v-model.trim="username"
         :dataType="'text'"
@@ -8,7 +8,7 @@
         class="col-span-12"
         inputId="username"
         placeHolder="Enter Username"
-        vname="search"
+        vname="username"
     ></VInput>
     <span v-if="userNameValidationNotMatch" class="text-red-500 text-[12px]">Invalid Username.</span>
   </div>

@@ -1,16 +1,16 @@
 <template>
   <div class="flex flex-col gap-2">
-    <label for="email"> Email:</label>
+    <span>Email:</span>
     <VInput
-        v-model.trim="email"
+        v-model="email"
         :dataType="'email'"
         :error="emailValidationNotMatch"
         class="col-span-12"
         inputId="email"
         placeHolder="Enter Email"
-        vname="search"
+        vname="email"
     ></VInput>
-    <span v-if="emailValidationNotMatch" class="text-red-500 text-[12px]">Invalid Email.</span>
+    <span v-if="emailValidationNotMatch" class="text-red-500 text-[12px]">Invalid email address.</span>
   </div>
 </template>
 
@@ -19,6 +19,7 @@ import {ref} from "vue";
 import VInput from "@/components/utilities/VInput.vue";
 import {IStepsPayload} from "@/components/models/IStepsPayload";
 
+const emailValidationRegex = /^\S+@\S+\.\S+$/
 const emailValidationNotMatch = ref<Boolean>(false)
 const email = ref<string>('')
 const emits = defineEmits<{
@@ -26,7 +27,8 @@ const emits = defineEmits<{
 }>()
 
 function validateInput() {
-  if (email.value.includes('@')) {
+  if (!email.value.includes(' ') &&email.value.includes('@')  ) {
+    emailValidationNotMatch.value = false
     emits('setPayload', {key: 'email', value: email.value})
   } else {
     emailValidationNotMatch.value = true

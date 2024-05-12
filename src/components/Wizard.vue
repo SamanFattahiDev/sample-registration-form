@@ -21,7 +21,6 @@
 
 <script lang="ts" setup>
 import ArrowLeft from "@/components/icons/ArrowLeft.vue";
-import {useAppStore} from "@/stores/index.ts";
 import type {Component} from 'vue'
 import {computed, ref} from "vue";
 import {IStepsPayload} from "@/components/models/IStepsPayload";
@@ -35,10 +34,13 @@ let steps = {
   2: Email,
   3: Description,
 }
+
 let currentStep = ref(1)
 let computedStep = computed(() => {
   return steps[currentStep.value]
 })
+
+
 // const steps: Record<number, string> = {
 //   1: 'Username',
 //   2: 'Email',
@@ -67,17 +69,15 @@ function setCurrentStep() {
   let currentStepIndex = Object.keys(steps).findIndex(e => e == currentStep.value)
   // here we check that if current component has a next sibling, increment currentStep value
   if (!!steps[currentStepIndex + 2]) {
-    const appStore = useAppStore()
+    // const {setStep} = useAppStore()
     currentStep.value++
-    appStore.setStep(currentStep.value)
+    // setStep(currentStep.value)
   }
 }
 
 function previousStep() {
-  const appStore = useAppStore()
-
+  // const {setStep} = useAppStore()
   currentStep.value--
-  appStore.setStep(currentStep.value)
-
+// setStep(currentStep.value)
 }
 </script>
