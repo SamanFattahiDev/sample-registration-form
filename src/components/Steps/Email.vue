@@ -3,7 +3,7 @@
     <span>Email:</span>
     <VInput
         v-model="email"
-        :dataType="'email'"
+        dataType="text"
         :error="emailValidationNotMatch"
         class="col-span-12"
         inputId="email"

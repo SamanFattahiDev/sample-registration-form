@@ -1,6 +1,7 @@
 <template>
   <div class="w-full    flex items-center  ">
-    <div v-for="step in headerSteps" :class="{'border-b-2 border-b-green-500 !text-black':appStore.getCurrentStep===step.stepId,'border-b-2 border-b-green-500':appStore.getCurrentStep>=step.stepId}"
+    <div v-for="step in headerSteps"
+         :class="{'border-b-2 border-b-green-500 !text-black':appStore.getCurrentStep===step.stepId,'border-b-2 border-b-green-500':appStore.getCurrentStep>=step.stepId}"
          class=" w-1/3 flex items-center text-gray-300 justify-center p-3 ">
       <span>{{ step.title }}</span>
     </div>
@@ -16,6 +17,7 @@ interface IHeaderSteps {
   title: string,
   width: string
 }
+
 const appStore = useAppStore()
 const headerSteps = ref<IHeaderSteps[]>([
   {
@@ -30,7 +32,7 @@ const headerSteps = ref<IHeaderSteps[]>([
   },
   {
     stepId: 3,
-    title: 'Description',
+    title: 'Review',
     width: '100%'
   },
 ])

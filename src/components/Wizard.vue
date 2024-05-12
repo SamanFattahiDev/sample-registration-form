@@ -14,7 +14,8 @@
       </button>
     </div>
     <div class="w-full flex  my-2  flex-col gap-2">
-      <component :is="computedStep" ref="asyncComponents" @setPayload="validationSuccessful"></component>
+      <component :is="computedStep" ref="asyncComponents" :registrationData="registrationData"
+                 @setPayload="validationSuccessful"></component>
     </div>
   </div>
 </template>
@@ -26,33 +27,19 @@ import {computed, ref} from "vue";
 import {IStepsPayload} from "@/components/models/IStepsPayload";
 import Username from "@/components/Steps/Username.vue";
 import Email from "@/components/Steps/Email.vue";
-import Description from "@/components/Steps/Description.vue";
+import Review from "@/components/Steps/Review.vue";
 
 const asyncComponents = ref<Component | null>(null)
 let steps = {
   1: Username,
   2: Email,
-  3: Description,
+  3: Review,
 }
 
 let currentStep = ref(1)
 let computedStep = computed(() => {
   return steps[currentStep.value]
 })
-
-
-// const steps: Record<number, string> = {
-//   1: 'Username',
-//   2: 'Email',
-//   3: 'Description',
-// }
-// const currentStep = ref(1)
-// const asyncStep = defineAsyncComponent({
-//   loader: () => import(`./Steps/${steps[computedCurrentStep.value]}.vue`),
-// })
-// const computedCurrentStep = computed(() => {
-//   return currentStep.value
-// })
 const registrationData = ref<any>({})
 
 function validateComponent() {
@@ -60,7 +47,7 @@ function validateComponent() {
 }
 
 function validationSuccessful(data: IStepsPayload | null) {
-  registrationData[data.key] = data.value
+  registrationData.value[data.key] = data.value
   setCurrentStep()
 }
 
