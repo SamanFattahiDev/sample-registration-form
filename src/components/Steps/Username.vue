@@ -1,12 +1,12 @@
 <template>
   <div class="flex flex-col gap-2">
+    <label for="username"> Username:</label>
     <VInput
-        inputId="username"
         v-model.trim="username"
         :dataType="'text'"
         :error="userNameValidationNotMatch"
         class="col-span-12"
-        label="Username:"
+        inputId="username"
         placeHolder="Enter Username"
         vname="search"
     ></VInput>
@@ -21,12 +21,14 @@ import {IStepsPayload} from "@/components/models/IStepsPayload";
 
 const userNameValidationNotMatch = ref<Boolean>(false)
 const username = ref<string>('')
+// check if an string is not empty, it does not contain special characters except _ , its longer than 3 characters and shorter than 15 characters
+const userNameValidationRegex = /^[a-zA-Z0-9_]{4,15}$/
 const emits = defineEmits<{
   (e: 'setPayload', payload: IStepsPayload): void
 }>()
 
 function validateInput() {
-  if (username.value === 'hello') {
+  if (userNameValidationRegex.test(username.value)) {
     emits('setPayload', {key: 'userName', value: username.value})
   } else {
     userNameValidationNotMatch.value = true

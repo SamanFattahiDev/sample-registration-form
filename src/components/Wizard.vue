@@ -18,9 +18,10 @@
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
 import ArrowLeft from "@/components/icons/ArrowLeft.vue";
-import {useAppStore} from "@/stores/index.js";
+import {useAppStore} from "@/stores/index.ts";
 import type {Component} from 'vue'
 import {computed, ref} from "vue";
 import {IStepsPayload} from "@/components/models/IStepsPayload";
@@ -28,7 +29,6 @@ import Username from "@/components/Steps/Username.vue";
 import Email from "@/components/Steps/Email.vue";
 import Description from "@/components/Steps/Description.vue";
 
-const appStore = useAppStore()
 const asyncComponents = ref<Component | null>(null)
 let steps = {
   1: Username,
@@ -67,12 +67,15 @@ function setCurrentStep() {
   let currentStepIndex = Object.keys(steps).findIndex(e => e == currentStep.value)
   // here we check that if current component has a next sibling, increment currentStep value
   if (!!steps[currentStepIndex + 2]) {
+    const appStore = useAppStore()
     currentStep.value++
     appStore.setStep(currentStep.value)
   }
 }
 
 function previousStep() {
+  const appStore = useAppStore()
+
   currentStep.value--
   appStore.setStep(currentStep.value)
 

@@ -1,12 +1,12 @@
 <template>
   <div class="flex flex-col gap-2">
+    <label for="email"> Email:</label>
     <VInput
-        inputId="email"
         v-model.trim="email"
         :dataType="'email'"
         :error="emailValidationNotMatch"
         class="col-span-12"
-        label="Email:"
+        inputId="email"
         placeHolder="Enter Email"
         vname="search"
     ></VInput>
@@ -26,7 +26,7 @@ const emits = defineEmits<{
 }>()
 
 function validateInput() {
-  if (email.value === '@') {
+  if (email.value.includes('@')) {
     emits('setPayload', {key: 'email', value: email.value})
   } else {
     emailValidationNotMatch.value = true
