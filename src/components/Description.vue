@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col gap-2">
     <VInput
-        v-model.trim="description"
+        v-model.trim="debouncedDescription"
         class="col-span-12"
         data-type="text"
         inputId="description"
@@ -10,7 +10,7 @@
     ></VInput>
     <span v-if="isDescriptionBalanced===true" class="text-green-500 text-[12px]">The text is balanced.</span>
     <span v-else-if="isDescriptionBalanced===false" class="text-red-500 text-[12px]">The text is not balanced.</span>
-    <button class="btn bg-green-500 text-white p-2 rounded-xl" type="button" @click="isBalanced">Check Balance</button>
+    <button class="btn bg-green-500 text-white p-2 rounded-xl" type="button" @click="isBalanced">isBalanced</button>
   </div>
 </template>
 <script>
@@ -21,27 +21,114 @@ export default {
   data() {
     return {
       description: '',
-      isDescriptionBalanced: null,
-      specialCharacters: ['{', '[', '(', ')', ']', '}']
+      isDescriptionBalanced: false,
+      specialCharacters: ['{', '}', '[', ']', '(', ')'],
+      specialCharactersOpen: ['{', '[', '('],
+      specialCharactersClose: ['}', ']', ')'],
+      specialCharactersOpenCount: 0,
+      specialCharsRegex: /[\(\){}\[\]]/,
+      specialCharactersCloseCount: 0,
+      specialCharactersInPair: {
+        "{": 0,
+        "}": 0,
+        "(": 0,
+        ")": 0,
+        "[": 0,
+        "]": 0,
+      },
+      specialCharactersInPair2: {
+        "{": {
+          pair: '}',
+          count: 0
+        },
+        "}": {
+          pair: '{',
+          count: 0
+        },
+        "(": {
+          pair: ')',
+          count: 0
+        },
+        ")": {
+          pair: '(',
+          count: 0
+        },
+        "[": {
+          pair: ']',
+          count: 0
+        },
+        "]": {
+          pair: '[',
+          count: 0
+        },
+      },
+      speCharacters: [
+        ['(', ')'],
+        ['{', '}'],
+        ['[', ']'],
+        [')', '('],
+        ['}', '{'],
+        [']', '['],
+      ],
+      timeout: null
     }
   },
   methods: {
     isBalanced() {
+      this.isDescriptionBalanced = false
       if (this.description) {
-        let counter = 0
-        let descriptionArray = this.description.split(' ')
-        for (let i = 0; i < descriptionArray.length; i++) {
-          this.specialCharacters.forEach((char) => {
-            if (descriptionArray[i].includes(char)) {
-              counter++
-            }
-          })
+        let descriptionArray = this.description.split('')
+          if (this.specialCharsRegex.test(this.description)) {
+            this.speCharacters.forEach((group) => {
+              group.forEach((char) => {
+                if (descriptionArray.includes(char)) {
+                  this.isDescriptionBalanced = true
+                }
+                else if (!descriptionArray.includes(char)) {
+                  return;
+                }
+              })
+            })
+          }else{
+            this.isDescriptionBalanced = true
+          }
+        // Object.keys(this.specialCharactersInPair2).forEach((key) => {
+        //   if (this.specialCharactersInPair2[key].count > 0) {
+        //     if (this.specialCharactersInPair2[this.specialCharactersInPair2[key].pair].count > 0) {
+        //       this.isDescriptionBalanced = true
+        //       console.log('balanced')
+        //     }else{
+        //       this.isDescriptionBalanced = false
+        //       console.log('not balanced')
+        //       return
+        //     }
+        //   }
+        // })
+        // console.log(this.specialCharactersInPair2)
+      }
+      console.log(this.isDescriptionBalanced)
+    }
+  },
+  watch: {
+    description: function (val) {
+      this.isBalanced()
+    }
+  }
+  ,
+  computed: {
+    debouncedDescription: {
+      get() {
+        return this.description
+      }
+      ,
+      set(val) {
+        if (this.timeout) {
+          clearTimeout(this.timeout)
         }
-        if (counter % 2 === 0) {
-          this.isDescriptionBalanced = true
-        } else {
-          this.isDescriptionBalanced = false
-        }
+        this.timeout = setTimeout(() => {
+          this.description = val
+        }, 400)
+
       }
     }
   }
