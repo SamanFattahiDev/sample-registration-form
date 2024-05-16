@@ -1,6 +1,7 @@
 <template>
   <div class="w-full p-3">
-    <div class="w-full flex items-center justify-between">
+    <CustomHeader  :currentStep="currentStep"></CustomHeader>
+    <div class="w-full mt-3 flex items-center justify-between">
       <button id="btn-prev" :disabled="currentStep===1"
               class="btn p-2 disabled:bg-gray-50 disabled:border-none disabled:text-gray-300 rounded-full text-primary hover:text-white bg-white hover:bg-primary transition-all border-2 border-primary"
               type="button" @click="previousStep">
@@ -28,20 +29,20 @@ import {IStepsPayload} from "@/components/models/IStepsPayload";
 import Username from "@/components/Steps/Username.vue";
 import Email from "@/components/Steps/Email.vue";
 import Review from "@/components/Steps/Review.vue";
-
+import CustomHeader from "@/components/Main/CustomHeader.vue";
 const asyncComponents = ref<Component | null>(null)
 let steps = {
   1: Username,
   2: Email,
   3: Review,
 }
-
 let currentStep = ref(1)
+const registrationData = ref<any>({})
+
+
 let computedStep = computed(() => {
   return steps[currentStep.value]
 })
-const registrationData = ref<any>({})
-
 function validateComponent() {
   asyncComponents.value.validateInput()
 }
@@ -50,21 +51,15 @@ function validationSuccessful(data: IStepsPayload | null) {
   registrationData.value[data.key] = data.value
   setCurrentStep()
 }
-
 function setCurrentStep() {
   // here we check if current step component exists in steps
   let currentStepIndex = Object.keys(steps).findIndex(e => e == currentStep.value)
   // here we check that if current component has a next sibling, increment currentStep value
   if (!!steps[currentStepIndex + 2]) {
-    // const {setStep} = useAppStore()
     currentStep.value++
-    // setStep(currentStep.value)
   }
 }
-
 function previousStep() {
-  // const {setStep} = useAppStore()
   currentStep.value--
-// setStep(currentStep.value)
 }
 </script>

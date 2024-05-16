@@ -1,7 +1,7 @@
 <template>
   <div class="w-full    flex items-center  ">
     <div v-for="step in headerSteps"
-         :class="{'border-b-2 border-b-green-500 !text-black':appStore.getCurrentStep===step.stepId,'border-b-2 border-b-green-500':appStore.getCurrentStep>=step.stepId}"
+         :class="{'border-b-2 border-b-green-500 !text-black':computedCurrentStep===step.stepId,'border-b-2 border-b-green-500':computedCurrentStep.getCurrentStep>=step.stepId}"
          class=" w-1/3 flex items-center text-gray-300 justify-center p-3 ">
       <span>{{ step.title }}</span>
     </div>
@@ -9,8 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-import {ref} from "vue";
-import {useAppStore} from "@/stores";
+import {computed, ref} from "vue";
 
 interface IHeaderSteps {
   stepId: number,
@@ -18,7 +17,15 @@ interface IHeaderSteps {
   width: string
 }
 
-const appStore = useAppStore()
+const props = defineProps({
+  currentStep: {
+    type: Number
+  }
+})
+
+const computedCurrentStep = computed(() => {
+  return props.currentStep
+})
 const headerSteps = ref<IHeaderSteps[]>([
   {
     stepId: 1,
