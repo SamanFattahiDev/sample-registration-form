@@ -51,7 +51,7 @@ let props = defineProps({
   },
   vname: {
     type: String,
-    required: true
+    required: false
   },
 
   placeHolder: {

@@ -78,20 +78,25 @@ export default {
       this.isDescriptionBalanced = false
       if (this.description) {
         let descriptionArray = this.description.split('')
-          if (this.specialCharsRegex.test(this.description)) {
-            this.speCharacters.forEach((group) => {
-              group.forEach((char) => {
-                if (descriptionArray.includes(char)) {
-                  this.isDescriptionBalanced = true
-                }
-                else if (!descriptionArray.includes(char)) {
-                  return;
-                }
-              })
-            })
-          }else{
-            this.isDescriptionBalanced = true
-          }
+        if (this.specialCharsRegex.test(this.description)) {
+          this.speCharacters.forEach((group) => {
+            if(descriptionArray.includes(group[0]) &&descriptionArray.includes(group[1])){
+              this.isDescriptionBalanced = true
+            }else{
+              return
+            }
+            // group.forEach((char) => {
+              // if (descriptionArray.includes(char)) {
+              //   this.isDescriptionBalanced = true
+              // } else if (!descriptionArray.includes(char)) {
+              //   this.isDescriptionBalanced = false
+              //   return;
+              // }
+            // })
+          })
+        } else {
+          this.isDescriptionBalanced = true
+        }
         // Object.keys(this.specialCharactersInPair2).forEach((key) => {
         //   if (this.specialCharactersInPair2[key].count > 0) {
         //     if (this.specialCharactersInPair2[this.specialCharactersInPair2[key].pair].count > 0) {

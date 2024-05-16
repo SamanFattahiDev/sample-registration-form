@@ -24,7 +24,7 @@ describe('Description Component | src/components/Description.vue', () => {
         cy.callsIsBalancedOnce()
     })
     it('Passing a balanced text with 3 levels of special characters', ()=>{
-        cy.get('input#description').type('Hi {How [are (you) doing] today}?', { parseSpecialCharSequences: false })
+            cy.get('input#description').type('Hi {How [are (you) doing] today}?', { parseSpecialCharSequences: false })
         cy.contains(balancedMessage)
         cy.callsIsBalancedOnce()
     })
